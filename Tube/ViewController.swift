@@ -46,7 +46,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
 
 //        let myNewCell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("myCell", forIndexPath: indexPath) as UITableViewCell
-        println(tableViewData)
 
         myNewCell.text = tableViewData[indexPath.row] as String
         
@@ -80,9 +79,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(self.data, options:NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
         
-        if jsonResult.count>0 && jsonResult["result"].count>0 {
-            var results: NSArray = jsonResult["result"] as NSArray
-            self.tableViewData = results
+        if jsonResult.count>0 && jsonResult["statuses"].count>0 {
+            var statuses: Array = jsonResult["statuses"] as NSArray
+            var names = statuses.map({ obj in obj["name"]})
+            
+            self.tableViewData = names
             self.tableView.reloadData()
         }
     }
